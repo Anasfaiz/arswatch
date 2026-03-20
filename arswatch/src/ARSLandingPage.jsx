@@ -2,6 +2,35 @@ import { useState, useEffect, useRef } from "react";
 
 const WATCH_IMG = "/watch.jpg";
 
+// Custom hook for scroll animations
+function useScrollAnimation() {
+  const ref = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
+
+  return [ref, isVisible];
+}
+
 const olive = "#747c27";
 const oliveDark = "#3a4212";
 const oliveLight = "#9ca82d";
@@ -333,6 +362,33 @@ function MBar({ label, pct, color = gold }) {
   );
 }
 
+// Animated Section wrapper component
+function AnimatedSection({ children, animationType = "fadeInUp", ...props }) {
+  const [ref, isVisible] = useScrollAnimation();
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible
+          ? "translateY(0)"
+          : animationType === "fadeInUp"
+            ? "translateY(40px)"
+            : animationType === "fadeInLeft"
+              ? "translateX(-40px)"
+              : animationType === "fadeInRight"
+                ? "translateX(40px)"
+                : "scale(0.9)",
+        transition: "all 0.8s ease-out",
+      }}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function ARSLandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Overview");
@@ -380,10 +436,11 @@ export default function ARSLandingPage() {
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap');
         *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
         body { font-family:'Barlow',sans-serif; background:${white}; }
         .bc  { font-family:'Barlow Condensed',sans-serif !important; }
+        .teko { font-family:'Teko',sans-serif !important; }
         @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
         @keyframes lp    { 0%,100%{opacity:1} 50%{opacity:.2} }
         @keyframes scan  { 0%{top:-30%;opacity:0} 10%{opacity:.4} 90%{opacity:.4} 100%{top:130%;opacity:0} }
@@ -393,14 +450,14 @@ export default function ARSLandingPage() {
         .inp:focus { border-color:${gold}; }
         .ch    { transition:transform .22s ease,box-shadow .22s ease;cursor:default; }
         .ch:hover { transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.10); }
-        .btn-w { background:transparent;border:2px solid ${white};color:${white};padding:13px 28px;font-size:11px;font-weight:800;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;transition:background .2s; }
-        .btn-w:hover { background:rgba(255,255,255,.1); }
-        .btn-o { background:${olive};border:none;color:${white};padding:13px 28px;font-size:11px;font-weight:800;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;transition:background .2s;display:inline-flex;align-items:center;gap:8px; }
-        .btn-o:hover { background:${oliveDark}; }
-        .btn-s { background:${olive};border:none;color:${white};width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:16px;font-size:13px;font-weight:800;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.14em;border-radius:4px;cursor:pointer;transition:background .2s; }
-        .btn-s:hover { background:${oliveDark}; }
-        .nl   { font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#888875;text-decoration:none;transition:color .2s; }
-        .nl:hover { color:${olive}; }
+        .btn-w { background:transparent;border:2px solid ${white};color:${white};padding:13px 28px;font-size:11px;font-weight:800;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;transition:all .3s ease; }
+        .btn-w:hover { background:rgba(255,255,255,.1); transform:translateY(-2px); box-shadow:0 8px 20px rgba(255,255,255,.15); }
+        .btn-o { background:${olive};border:none;color:${white};padding:13px 28px;font-size:11px;font-weight:800;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;transition:all .3s ease;display:inline-flex;align-items:center;gap:8px; }
+        .btn-o:hover { background:${oliveDark}; transform:translateY(-2px); box-shadow:0 8px 20px rgba(116,124,39,.3); }
+        .btn-s { background:${olive};border:none;color:${white};width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:16px;font-size:13px;font-weight:800;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.14em;border-radius:4px;cursor:pointer;transition:all .3s ease; }
+        .btn-s:hover { background:${oliveDark}; transform:translateY(-2px); box-shadow:0 8px 20px rgba(116,124,39,.3); }
+        .nl   { font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#888875;text-decoration:none;transition:all .3s ease; }
+        .nl:hover { color:${olive}; transform:translateY(-1px); }
         a { text-decoration:none; }
       `}</style>
 
@@ -658,7 +715,8 @@ export default function ARSLandingPage() {
           }}
         >
           {/* copy */}
-          <div
+          <AnimatedSection
+            animationType="fadeInLeft"
             style={{
               flex: "1 1 380px",
               display: "flex",
@@ -692,9 +750,9 @@ export default function ARSLandingPage() {
               </span>
             </div>
             <h1
-              className="bc"
+              className="teko"
               style={{
-                fontWeight: 900,
+                fontWeight: 700,
                 fontSize: "clamp(2.2rem,5vw,3.8rem)",
                 lineHeight: 0.92,
                 textTransform: "uppercase",
@@ -776,10 +834,11 @@ export default function ARSLandingPage() {
                 </div>
               ))}
             </div>
-          </div>
+          </AnimatedSection>
 
           {/* watch */}
-          <div
+          <AnimatedSection
+            animationType="fadeInRight"
             style={{
               flex: "0 1 420px",
               position: "relative",
@@ -900,7 +959,7 @@ export default function ARSLandingPage() {
                 </span>
               </p>
             </div>
-          </div>
+          </AnimatedSection>
         </div>
 
         {/* WIMU diagonal slash */}
@@ -954,45 +1013,86 @@ export default function ARSLandingPage() {
         style={{ background: white, padding: "80px 24px" }}
       >
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ maxWidth: 680 }}>
-            <div
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 48,
+              alignItems: "center",
+            }}
+          >
+            <AnimatedSection style={{ flex: "1 1 400px", maxWidth: 680 }}>
+              <div
+                style={{
+                  width: 44,
+                  height: 4,
+                  background: gold,
+                  borderRadius: 2,
+                  marginBottom: 20,
+                }}
+              />
+              <h2
+                className="teko"
+                style={{
+                  fontWeight: 700,
+                  fontSize: "clamp(2.5rem,5vw,5rem)",
+                  textTransform: "uppercase",
+                  lineHeight: 1,
+                  color: ink,
+                  marginBottom: 20,
+                }}
+              >
+                Built for Movement,
+                <br />
+                Built for Scale.
+              </h2>
+              <p
+                style={{
+                  fontSize: 17,
+                  lineHeight: 1.8,
+                  color: midGray,
+                  maxWidth: "54ch",
+                }}
+              >
+                The ARS Performance Tracker delivers robust athlete monitoring
+                in a sleek, wrist-worn form factor. Whether you're running
+                academy programs or scaling athlete development, this device
+                combines real-time data capture with long battery life and
+                seamless platform integration.
+              </p>
+            </AnimatedSection>
+
+            <AnimatedSection
+              animationType="fadeInRight"
               style={{
-                width: 44,
-                height: 4,
-                background: gold,
-                borderRadius: 2,
-                marginBottom: 20,
-              }}
-            />
-            <h2
-              className="bc"
-              style={{
-                fontWeight: 900,
-                fontSize: "clamp(1.9rem,4vw,2.8rem)",
-                textTransform: "uppercase",
-                lineHeight: 1,
-                color: ink,
-                marginBottom: 20,
+                flex: "1 0 800px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
               }}
             >
-              Built for Movement,
-              <br />
-              Built for Scale.
-            </h2>
-            <p
-              style={{
-                fontSize: 14,
-                lineHeight: 1.8,
-                color: midGray,
-                maxWidth: "54ch",
-              }}
-            >
-              The ARS Performance Tracker delivers robust athlete monitoring in
-              a sleek, wrist-worn form factor. Whether you're running academy
-              programs or scaling athlete development, this device combines
-              real-time data capture with long battery life and seamless
-              platform integration.
-            </p>
+              <img
+                src="/explode.png"
+                alt="Technology Exploded View"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  maxWidth: 600,
+                  opacity: 0.95,
+                  mixBlendMode: "multiply",
+                  filter: "contrast(1.05) brightness(0.98)",
+                  transition: "transform 0.3s ease, filter 0.3s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = "scale(1.03)";
+                  e.target.style.filter = "contrast(1.1) brightness(0.95)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = "scale(1)";
+                  e.target.style.filter = "contrast(1.05) brightness(0.98)";
+                }}
+              />
+            </AnimatedSection>
           </div>
         </div>
       </section>
@@ -1007,33 +1107,31 @@ export default function ARSLandingPage() {
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <h2
-              className="bc"
+              className="teko"
               style={{
-                fontWeight: 900,
-                fontSize: "clamp(1.8rem,3.5vw,2.4rem)",
+                fontWeight: 700,
                 color: ink,
+                lineHeight: 0.85, // 1. Dramatically reduces the vertical gap between lines
+                textAlign: "center",
+                textTransform: "uppercase",
               }}
             >
-              Six key metrics. One reliable tracker.
+              <span
+                style={{ fontSize: "clamp(1.8rem, 4vw, 3.5rem)", opacity: 0.8 }}
+              >
+                Six key metrics.
+              </span>
+              <br />
+              <span style={{ fontSize: "clamp(2.8rem, 8vw, 7rem)" }}>
+                One reliable tracker.
+              </span>
             </h2>
-            <p
-              style={{
-                marginTop: 12,
-                fontSize: 14,
-                color: midGray,
-                maxWidth: 560,
-                margin: "12px auto 0",
-              }}
-            >
-              Track vital athletic signals with precision — from a form factor
-              designed for comfort, wearability, and longer runtime.
-            </p>
           </div>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-              gap: 24,
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: 32, // Increased gap for a cleaner look
             }}
           >
             {[
@@ -1042,96 +1140,136 @@ export default function ARSLandingPage() {
                 desc: "Capture burst velocity and sustained pace with sub-second precision during every drill and match.",
                 c: olive,
                 bgGrad: `linear-gradient(135deg, rgba(116,124,39,.08) 0%, rgba(116,124,39,.02) 100%)`,
+                icon: <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />, // Lightning/Speed
               },
               {
                 title: "Athlete Skill Analysis",
                 desc: "Sport-specific drills scored live via embedded motion sensors across 12 athletic dimensions.",
                 c: gold,
                 bgGrad: `linear-gradient(135deg, rgba(201,168,76,.08) 0%, rgba(201,168,76,.02) 100%)`,
+                icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />, // Shield/Analysis
               },
               {
                 title: "Stamina Monitoring",
                 desc: "Continuous endurance scoring mapped across every training block for optimised performance.",
                 c: olive,
                 bgGrad: `linear-gradient(135deg, rgba(116,124,39,.08) 0%, rgba(116,124,39,.02) 100%)`,
+                icon: <path d="M22 12h-4l-3 9L9 3l-3 9H2" />, // Heartbeat/Stamina
               },
               {
                 title: "Training Load Analysis",
                 desc: "Detect overtraining early with cumulative load models and AI-powered recovery recommendations.",
                 c: gold,
                 bgGrad: `linear-gradient(135deg, rgba(201,168,76,.08) 0%, rgba(201,168,76,.02) 100%)`,
+                icon: <path d="M18 20V10M12 20V4M6 20v-6" />, // Bars/Load
               },
               {
                 title: "Heart Rate Zones",
                 desc: "Monitor HR zones in real time to keep athletes in the optimal training band throughout sessions.",
                 c: olive,
                 bgGrad: `linear-gradient(135deg, rgba(116,124,39,.08) 0%, rgba(116,124,39,.02) 100%)`,
+                icon: (
+                  <path d="M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" />
+                ), // Circle/Heart Rate
               },
               {
                 title: "Academy Integration",
                 desc: "Push athlete reports directly into ARS Kreedashala dashboards for seamless coach-athlete sync.",
                 c: gold,
                 bgGrad: `linear-gradient(135deg, rgba(201,168,76,.08) 0%, rgba(201,168,76,.02) 100%)`,
+                icon: (
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm14 14v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                ), // Team/Sync
               },
             ].map((m) => (
               <div
                 key={m.title}
                 className="ch"
                 style={{
-                  background: white,
-                  padding: "clamp(20px, 5vw, 32px)",
+                  background: "white", // Set to solid white for better contrast
+                  padding: "40px 32px",
                   textAlign: "center",
-                  borderRadius: 8,
-                  border: `3px solid ${m.c}`,
-                  boxShadow: `0 8px 24px rgba(0,0,0,.08)`,
-                  transition: "all .3s ease",
-                  position: "relative",
-                  overflow: "hidden",
-                  minHeight: "100%",
+                  borderRadius: "20px", // More rounded looks more modern
+                  border: `1px solid rgba(0,0,0,0.06)`,
+                  boxShadow: `0 10px 30px rgba(0,0,0,0.04)`,
+                  transition:
+                    "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
                   display: "flex",
                   flexDirection: "column",
+                  cursor: "pointer",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-12px)";
+                  e.currentTarget.style.boxShadow = `0 20px 40px rgba(0,0,0,0.1)`;
+                  e.currentTarget.style.borderColor = m.c;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = `0 10px 30px rgba(0,0,0,0.04)`;
+                  e.currentTarget.style.borderColor = "rgba(0,0,0,0.06)";
                 }}
               >
+                {/* 1. Added the background gradient glow back in */}
                 <div
                   style={{
                     position: "absolute",
-                    inset: 0,
-                    background: m.bgGrad,
-                    pointerEvents: "none",
-                    zIndex: 0,
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: "4px",
+                    background: m.c,
                   }}
                 />
-                <div style={{ position: "relative", zIndex: 1 }}>
-                  <div
-                    style={{ color: m.c, marginBottom: 16, fontWeight: 900 }}
+
+                {/* Icon Container */}
+                <div
+                  style={{
+                    background: m.bgGrad,
+                    width: 70,
+                    height: 70,
+                    borderRadius: "50%",
+                    margin: "0 auto 24px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{ color: m.c, width: 32, height: 32 }}
                   >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      style={{ width: 40, height: 40, margin: "0 auto" }}
-                    >
-                      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                    </svg>
-                  </div>
-                  <h3
-                    className="bc"
-                    style={{
-                      fontWeight: 900,
-                      fontSize: 15,
-                      textTransform: "uppercase",
-                      letterSpacing: ".05em",
-                      color: m.c,
-                      marginBottom: 8,
-                    }}
-                  >
-                    {m.title}
-                  </h3>
-                  <p style={{ fontSize: 12, lineHeight: 1.7, color: midGray }}>
-                    {m.desc}
-                  </p>
+                    {m.icon}
+                  </svg>
                 </div>
+
+                <h3
+                  className="teko" // Assuming Teko font is loaded
+                  style={{
+                    fontSize: "1.4rem",
+                    letterSpacing: "0.5px",
+                    marginBottom: "12px",
+                    color: "#111", // Darker for readability
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {m.title}
+                </h3>
+                <p
+                  style={{
+                    fontSize: "0.95rem",
+                    color: "#555",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {m.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -1220,9 +1358,9 @@ export default function ARSLandingPage() {
             />
             <Tag>Advanced Sensor Intelligence</Tag>
             <h2
-              className="bc"
+              className="teko"
               style={{
-                fontWeight: 900,
+                fontWeight: 700,
                 fontSize: "clamp(1.8rem,3.5vw,2.6rem)",
                 textTransform: "uppercase",
                 lineHeight: 1.05,
@@ -1432,9 +1570,9 @@ export default function ARSLandingPage() {
                 {p.icon}
               </div>
               <h4
-                className="bc"
+                className="teko"
                 style={{
-                  fontWeight: 900,
+                  fontWeight: 600,
                   fontSize: 14,
                   textTransform: "uppercase",
                   letterSpacing: ".06em",
@@ -1535,9 +1673,9 @@ export default function ARSLandingPage() {
             />
             <Tag bg={gold}>Team Deployment</Tag>
             <h2
-              className="bc"
+              className="teko"
               style={{
-                fontWeight: 900,
+                fontWeight: 700,
                 fontSize: "clamp(1.8rem,3.5vw,2.6rem)",
                 textTransform: "uppercase",
                 lineHeight: 1.05,
@@ -1604,9 +1742,9 @@ export default function ARSLandingPage() {
             />
             <Tag bg={ink}>Analytics Platform</Tag>
             <h2
-              className="bc"
+              className="teko"
               style={{
-                fontWeight: 900,
+                fontWeight: 700,
                 fontSize: "clamp(1.8rem,3.5vw,2.6rem)",
                 textTransform: "uppercase",
                 lineHeight: 1.05,
@@ -1829,9 +1967,9 @@ export default function ARSLandingPage() {
             />
             <Tag bg={gold}>Sports Research</Tag>
             <h2
-              className="bc"
+              className="teko"
               style={{
-                fontWeight: 900,
+                fontWeight: 700,
                 fontSize: "clamp(1.8rem,3.5vw,2.6rem)",
                 textTransform: "uppercase",
                 lineHeight: 1.05,
@@ -1974,9 +2112,9 @@ export default function ARSLandingPage() {
             />
             <Tag bg={gold}>Get Started</Tag>
             <h2
-              className="bc"
+              className="teko"
               style={{
-                fontWeight: 900,
+                fontWeight: 700,
                 fontSize: "clamp(2rem,4vw,3rem)",
                 textTransform: "uppercase",
                 color: ink,
