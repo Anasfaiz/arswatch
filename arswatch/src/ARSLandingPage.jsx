@@ -608,7 +608,7 @@ function VitalMonitoringShowcase() {
       <section
         style={{ background: offWhite, padding: "clamp(40px,8vw,80px) 24px" }}
       >
-        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div
             style={{
               textAlign: "center",
@@ -635,78 +635,77 @@ function VitalMonitoringShowcase() {
             <div className="vm-bg-layer" />
             <div className="vm-grid-lines" />
 
-            <div
-              className={`vm-center-image-wrap ${hoveredFeature !== null ? "vm-center-active" : ""}`}
-            >
-              <div className="vm-center-fade" />
-              <div className="vm-center-glow" />
-              <img
-                src="/watch2.png"
-                alt="ARS smart wearable fitness band"
-                className="vm-center-image"
-              />
+            {/* Watch Image - Left Side */}
+            <div className="vm-watch-container">
+              <div
+                className={`vm-watch-wrap ${hoveredFeature !== null ? "vm-watch-active" : ""}`}
+              >
+                <div className="vm-watch-glow" />
+                <img
+                  src="/watch2.png"
+                  alt="ARS smart wearable fitness band"
+                  className="vm-watch-image"
+                />
+              </div>
             </div>
 
-            {features.map((feature, i) => {
-              const layout = featureLayout[feature.label] ?? {
-                angle: (360 / features.length) * i,
-                radius: 1,
-                y: 0,
-                x: 0,
-              };
-              const isHovered = hoveredFeature === i;
-              return (
-                <div
-                  key={feature.label}
-                  className="vm-node"
-                  style={{
-                    "--angle": `${layout.angle}deg`,
-                    "--accent": feature.accent,
-                    "--nodeRadius": `calc(var(--orbit-radius) * ${layout.radius})`,
-                    "--nodeLift": `${layout.y}px`,
-                    "--nodeNudgeX": `${layout.x}px`,
-                    "--floatDelay": `${i * 0.28}s`,
-                    animationPlayState: isHovered ? "paused" : "running",
-                  }}
-                >
-                  <button
-                    type="button"
-                    className={`vm-node-btn ${isHovered ? "vm-node-hovered" : ""}`}
-                    aria-label={feature.label}
-                    onMouseEnter={() => setHoveredFeature(i)}
-                    onMouseLeave={() => setHoveredFeature(null)}
-                    onFocus={() => setHoveredFeature(i)}
-                    onBlur={() => setHoveredFeature(null)}
+            {/* Bubbles Grid - Right Side */}
+            <div className="vm-bubbles-container">
+              {features.map((feature, i) => {
+                const isHovered = hoveredFeature === i;
+                return (
+                  <div
+                    key={feature.label}
+                    className="vm-bubble-item"
+                    style={{
+                      "--accent": feature.accent,
+                      "--delay": `${i * 0.1}s`,
+                    }}
                   >
-                    <span className="vm-node-icon">{feature.icon}</span>
-                    <span className="vm-node-label">{feature.label}</span>
-                  </button>
-                  <div className={`vm-tip ${isHovered ? "vm-tip-open" : ""}`}>
-                    {feature.label} - {feature.desc}
+                    <button
+                      type="button"
+                      className={`vm-bubble-btn ${isHovered ? "vm-bubble-hovered" : ""}`}
+                      aria-label={feature.label}
+                      onMouseEnter={() => setHoveredFeature(i)}
+                      onMouseLeave={() => setHoveredFeature(null)}
+                      onFocus={() => setHoveredFeature(i)}
+                      onBlur={() => setHoveredFeature(null)}
+                    >
+                      <span className="vm-bubble-icon">{feature.icon}</span>
+                      <span className="vm-bubble-label">{feature.label}</span>
+                    </button>
+                    <div
+                      className={`vm-bubble-tip ${isHovered ? "vm-bubble-tip-open" : ""}`}
+                    >
+                      {feature.desc}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
 
         <style>{`
         .vm-shell {
-          --node-size: clamp(60px, 7vw, 80px);
-          --orbit-radius: clamp(160px, 24vw, 280px);
           position: relative;
-          min-height: clamp(500px, 65vw, 700px);
+          min-height: 600px;
           border-radius: 28px;
           overflow: hidden;
           background: radial-gradient(circle at 50% 52%, #7f848d 0%, #3a3e47 22%, #16191f 52%, #07090c 78%, #010101 100%);
           border: 1px solid rgba(255,255,255,.08);
           box-shadow: 0 30px 80px rgba(0,0,0,.48), inset 0 0 0 1px rgba(255,255,255,.03);
           isolation: isolate;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 60px 80px;
+          gap: 60px;
         }
         .vm-bg-layer {
           position: absolute;
           inset: 0;
-          background: radial-gradient(circle at 50% 50%, rgba(200,206,214,.2) 0%, rgba(144,151,160,.12) 24%, rgba(32,36,42,.14) 48%, rgba(8,10,12,0) 72%);
+          background: radial-gradient(circle at 30% 50%, rgba(200,206,214,.15) 0%, rgba(144,151,160,.08) 30%, rgba(32,36,42,.1) 50%, rgba(8,10,12,0) 70%);
           z-index: 0;
           pointer-events: none;
         }
@@ -719,255 +718,253 @@ function VitalMonitoringShowcase() {
           z-index: 0;
           pointer-events: none;
         }
-        .vm-center-image-wrap {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          width: clamp(200px, 45vw, 350px);
-          display: grid;
-          place-items: center;
-          z-index: 3;
-          transition: transform .28s ease;
+
+        /* Watch Container - Left Side */
+        .vm-watch-container {
+          flex: 0 0 45%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          z-index: 2;
         }
-        .vm-center-fade {
+        .vm-watch-wrap {
+          position: relative;
+          width: 100%;
+          max-width: 400px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform .3s ease;
+        }
+        .vm-watch-active {
+          transform: scale(1.05);
+        }
+        .vm-watch-glow {
           position: absolute;
-          width: 88%;
+          width: 80%;
           aspect-ratio: 1;
           border-radius: 50%;
-          background: radial-gradient(circle, rgba(196,202,210,.44) 0%, rgba(153,160,170,.16) 46%, rgba(130,136,145,0) 76%);
-          filter: blur(20px);
-          z-index: -2;
-          opacity: .85;
-        }
-        .vm-center-active {
-          transform: translate(-50%, -50%) scale(1.03);
-        }
-        .vm-center-glow {
-          position: absolute;
-          width: 82%;
-          aspect-ratio: 1;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(116,124,39,.52) 0%, rgba(116,124,39,.08) 45%, rgba(116,124,39,0) 72%);
-          filter: blur(12px);
+          background: radial-gradient(circle, rgba(116,124,39,.4) 0%, rgba(116,124,39,.15) 40%, rgba(116,124,39,0) 70%);
+          filter: blur(30px);
           z-index: -1;
-          transition: opacity .28s ease;
         }
-        .vm-center-active .vm-center-glow {
-          opacity: 1;
-          filter: blur(16px);
-        }
-        .vm-center-image {
+        .vm-watch-image {
           width: 100%;
           height: auto;
           object-fit: contain;
-          filter: drop-shadow(0 20px 30px rgba(0,0,0,.55));
+          filter: drop-shadow(0 20px 40px rgba(0,0,0,.6));
           user-select: none;
           pointer-events: none;
         }
-        .vm-node {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: rotate(var(--angle)) translateX(var(--nodeRadius)) rotate(calc(-1 * var(--angle))) translateX(var(--nodeNudgeX)) translateY(var(--nodeLift));
-          z-index: 4;
-          animation: vm-node-float 4.8s ease-in-out infinite;
-          animation-delay: var(--floatDelay);
+
+        /* Bubbles Container - Right Side */
+        .vm-bubbles-container {
+          flex: 0 0 50%;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+          z-index: 2;
+          padding: 20px 0;
         }
-        .vm-node-btn {
-          width: var(--node-size);
-          height: var(--node-size);
-          border-radius: 50%;
+        .vm-bubble-item {
+          position: relative;
+          animation: bubbleFadeIn 0.6s ease-out forwards;
+          animation-delay: var(--delay);
+          opacity: 0;
+        }
+        .vm-bubble-item:nth-child(9) {
+          grid-column: 1 / -1;
+          justify-self: center;
+          width: calc(50% - 10px);
+        }
+        @keyframes bubbleFadeIn {
+          to {
+            opacity: 1;
+          }
+        }
+
+        .vm-bubble-btn {
+          width: 100%;
+          min-height: 110px;
+          border-radius: 16px;
           border: 1px solid rgba(255,255,255,.15);
-          background: rgba(255,255,255,.06);
+          background: rgba(255,255,255,.08);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
-          box-shadow: 0 10px 24px rgba(0,0,0,.4);
+          box-shadow: 0 8px 20px rgba(0,0,0,.3);
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 7px;
+          gap: 10px;
+          padding: 16px 12px;
           color: #f8fbff;
           cursor: pointer;
-          transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+          transition: all .25s ease;
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
         }
-        .vm-node-btn:hover,
-        .vm-node-btn:focus-visible,
-        .vm-node-hovered {
-          transform: scale(1.1);
+        .vm-bubble-btn:hover,
+        .vm-bubble-btn:focus-visible,
+        .vm-bubble-hovered {
+          transform: translateY(-4px);
           border-color: color-mix(in srgb, var(--accent) 70%, white 30%);
-          box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 70%, white 30%), 0 0 22px color-mix(in srgb, var(--accent) 60%, transparent), 0 12px 28px rgba(0,0,0,.42);
+          box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 60%, white 40%),
+                      0 0 20px color-mix(in srgb, var(--accent) 50%, transparent),
+                      0 12px 30px rgba(0,0,0,.4);
           outline: none;
         }
-        .vm-node-icon {
-          width: 24px;
-          height: 24px;
+        .vm-bubble-icon {
+          width: 32px;
+          height: 32px;
           display: inline-flex;
           color: var(--accent);
+          flex-shrink: 0;
         }
-        .vm-node-icon svg {
+        .vm-bubble-icon svg {
           width: 100%;
           height: 100%;
         }
-        .vm-node-label {
+        .vm-bubble-label {
           font-family: 'Barlow Condensed',sans-serif;
-          font-size: 10px;
+          font-size: 12px;
           font-weight: 700;
-          letter-spacing: .08em;
+          letter-spacing: .06em;
           text-transform: uppercase;
           color: #f2f6fb;
           text-align: center;
-          line-height: 1.2;
-          padding: 0 5px;
+          line-height: 1.3;
+          padding: 0 4px;
         }
-        .vm-tip {
+        .vm-bubble-tip {
           position: absolute;
           left: 50%;
           top: calc(100% + 10px);
-          transform: translateX(-50%) translateY(4px);
-          min-width: 175px;
-          max-width: 230px;
+          transform: translateX(-50%) translateY(6px);
+          min-width: 200px;
+          max-width: 250px;
           border-radius: 10px;
-          border: 1px solid color-mix(in srgb, var(--accent) 55%, white 45%);
-          background: rgba(4,9,18,.94);
+          border: 1px solid color-mix(in srgb, var(--accent) 50%, white 50%);
+          background: rgba(8,12,20,.96);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
           color: #f3f7fb;
           font-size: 12px;
-          line-height: 1.4;
+          line-height: 1.5;
           text-align: center;
-          padding: 8px 10px;
+          padding: 10px 12px;
           opacity: 0;
           pointer-events: none;
-          transition: opacity .22s ease, transform .22s ease;
-          box-shadow: 0 8px 20px rgba(0,0,0,.35);
-          z-index: 5;
+          transition: opacity .25s ease, transform .25s ease;
+          box-shadow: 0 10px 25px rgba(0,0,0,.4);
+          z-index: 100;
+          white-space: normal;
+          word-wrap: break-word;
         }
-        .vm-tip-open {
+        .vm-bubble-tip-open {
           opacity: 1;
           transform: translateX(-50%) translateY(0);
         }
-        @keyframes vm-node-float {
-          0%, 100% { transform: rotate(var(--angle)) translateX(var(--nodeRadius)) rotate(calc(-1 * var(--angle))) translateX(var(--nodeNudgeX)) translateY(var(--nodeLift)); }
-          50% { transform: rotate(var(--angle)) translateX(var(--nodeRadius)) rotate(calc(-1 * var(--angle))) translateX(var(--nodeNudgeX)) translateY(calc(var(--nodeLift) - 8px)); }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+          .vm-shell {
+            padding: 50px 60px;
+            gap: 40px;
+          }
+          .vm-watch-container {
+            flex: 0 0 40%;
+          }
+          .vm-bubbles-container {
+            flex: 0 0 55%;
+            gap: 16px;
+          }
+          .vm-bubble-btn {
+            min-height: 100px;
+          }
         }
+
         @media (max-width: 860px) {
           .vm-shell {
-            --orbit-radius: clamp(140px, 26vw, 200px);
-            --node-size: clamp(58px, 9vw, 74px);
-            min-height: 580px;
-            padding: 32px 20px;
+            flex-direction: column;
+            padding: 40px 30px;
+            gap: 30px;
+            min-height: auto;
           }
-          .vm-center-image-wrap {
-            width: clamp(180px, 50vw, 300px);
+          .vm-watch-container {
+            flex: none;
+            width: 100%;
+            max-width: 350px;
           }
-          .vm-node-label {
-            font-size: 9px;
+          .vm-bubbles-container {
+            flex: none;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
           }
-          .vm-tip {
-            min-width: 145px;
-            max-width: 190px;
+        }
+
+        @media (max-width: 640px) {
+          .vm-shell {
+            padding: 30px 20px;
+            gap: 25px;
+          }
+          .vm-watch-container {
+            max-width: 280px;
+          }
+          .vm-bubbles-container {
+            max-width: 400px;
+            gap: 12px;
+          }
+          .vm-bubble-btn {
+            min-height: 90px;
+            padding: 12px 8px;
+          }
+          .vm-bubble-icon {
+            width: 28px;
+            height: 28px;
+          }
+          .vm-bubble-label {
             font-size: 11px;
           }
-        }
-        @media (max-width: 680px) {
-          .vm-shell {
-            --orbit-radius: clamp(120px, 24vw, 160px);
-            --node-size: clamp(54px, 8vw, 68px);
-            min-height: 520px;
-            padding: 28px 14px;
-          }
-          .vm-center-image-wrap {
-            width: clamp(160px, 55vw, 280px);
-          }
-          .vm-node-label {
-            font-size: 8px;
-          }
-          .vm-tip {
-            min-width: 130px;
-            max-width: 160px;
-            font-size: 10px;
-            top: calc(100% + 6px);
+          .vm-bubble-tip {
+            min-width: 180px;
+            max-width: 220px;
+            font-size: 11px;
+            padding: 8px 10px;
           }
         }
-        @media (max-width: 560px) {
+
+        @media (max-width: 480px) {
           .vm-shell {
-            --orbit-radius: clamp(100px, 22vw, 140px);
-            --node-size: clamp(50px, 7vw, 64px);
-            min-height: 480px;
-            padding: 20px 10px;
-          }
-          .vm-center-image-wrap {
-            width: clamp(150px, 60vw, 260px);
-          }
-          .vm-node-icon {
-            width: 20px;
-            height: 20px;
-          }
-          .vm-node-label {
-            font-size: 7px;
-            padding: 0 3px;
-          }
-          .vm-tip {
-            top: calc(100% + 6px);
-            font-size: 9px;
-            max-width: 140px;
-            min-width: 110px;
-          }
-        }
-        @media (max-width: 420px) {
-          .vm-shell {
-            --orbit-radius: clamp(85px, 20vw, 120px);
-            --node-size: clamp(48px, 8vw, 60px);
-            min-height: 440px;
-            padding: 18px 8px;
+            padding: 25px 16px;
             border-radius: 16px;
           }
-          .vm-center-image-wrap {
-            width: clamp(140px, 65vw, 240px);
+          .vm-watch-container {
+            max-width: 240px;
           }
-          .vm-node-icon {
-            width: 18px;
-            height: 18px;
+          .vm-bubbles-container {
+            max-width: 100%;
+            gap: 10px;
           }
-          .vm-node-label {
-            font-size: 6px;
-            padding: 0 2px;
-            gap: 3px;
+          .vm-bubble-btn {
+            min-height: 85px;
+            padding: 10px 6px;
+            gap: 8px;
           }
-          .vm-tip {
-            font-size: 8px;
-            max-width: 120px;
-            min-width: 95px;
-            padding: 6px 8px;
+          .vm-bubble-icon {
+            width: 24px;
+            height: 24px;
           }
-        }
-        @media (max-width: 320px) {
-          .vm-shell {
-            --orbit-radius: clamp(75px, 18vw, 105px);
-            --node-size: clamp(44px, 10vw, 56px);
-            min-height: 400px;
-            padding: 14px 6px;
+          .vm-bubble-label {
+            font-size: 10px;
           }
-          .vm-center-image-wrap {
-            width: clamp(130px, 70vw, 220px);
-          }
-          .vm-node-btn {
-            gap: 4px;
-          }
-          .vm-node-icon {
-            width: 16px;
-            height: 16px;
-          }
-          .vm-node-label {
-            font-size: 5px;
-            padding: 0;
-            gap: 2px;
-          }
-          .vm-tip {
-            font-size: 7px;
-            max-width: 100px;
-            min-width: 80px;
-            padding: 4px 6px;
+          .vm-bubble-tip {
+            min-width: 160px;
+            max-width: 200px;
+            font-size: 10px;
+            padding: 7px 9px;
           }
         }
       `}</style>
@@ -1128,34 +1125,116 @@ export default function ARSLandingPage() {
           #technology { padding: 50px 16px !important; }
           #technology h2 { font-size: 2rem !important; }
         }
+        /* 3D Model Base Styles - Ensure model-viewer always has dimensions */
+        model-viewer.technology-model-viewer {
+          width: 100% !important;
+          height: 350px !important;
+          min-height: 350px !important;
+          max-height: 100% !important;
+          display: block !important;
+          contain: strict !important;
+        }
+        .technology-model-wrap {
+          width: 100% !important;
+          height: 350px !important;
+          min-height: 350px !important;
+          display: flex !important;
+          overflow: visible !important;
+        }
+        /* Fix flex container on small screens */
+        @media(max-width:768px){
+          #technology > div > div {
+            display: block !important;
+          }
+          #technology > div > div > div {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-bottom: 32px !important;
+          }
+        }
+        /* Feature Grid - Ensure uniform card heights */
+        .feat-grid {
+          grid-auto-rows: 1fr;
+        }
+        .feat-grid > div {
+          height: 100%;
+          display: flex !important;
+        }
+        .feat-grid .ch {
+          width: 100%;
+        }
         /* 3D Model Section Responsive */
+        @media(min-width:769px){
+          .technology-model-wrap {
+            height: 400px !important;
+            min-height: 400px !important;
+          }
+          model-viewer {
+            height: 400px !important;
+            min-height: 400px !important;
+          }
+          .feat-grid {
+            grid-template-columns: repeat(5, 1fr) !important;
+            grid-auto-rows: 1fr !important;
+          }
+        }
+        @media(max-width:900px) and (min-width:769px){
+          .feat-grid {
+            grid-template-columns: repeat(4, 1fr) !important;
+          }
+        }
         @media(max-width:768px){
           model-viewer {
-            height: 300px !important;
+            height: 320px !important;
+            min-height: 320px !important;
           }
           .technology-model-wrap {
             height: 320px !important;
+            min-height: 320px !important;
           }
           .technology-model-viewer {
             width: 100% !important;
-            height: 100% !important;
+            height: 320px !important;
+            min-height: 320px !important;
             display: block !important;
           }
           .feat-grid {
             grid-template-columns: repeat(3, 1fr) !important;
             gap: 16px !important;
+            grid-auto-rows: 1fr !important;
+          }
+          .feat-grid .ch {
+            padding: 20px 12px !important;
+            min-height: 160px !important;
           }
         }
         @media(max-width:480px){
           model-viewer {
-            height: 250px !important;
+            height: 300px !important;
+            min-height: 300px !important;
           }
           .technology-model-wrap {
-            height: 260px !important;
+            height: 300px !important;
+            min-height: 300px !important;
+          }
+          .technology-model-viewer {
+            width: 100% !important;
+            height: 300px !important;
+            min-height: 300px !important;
+            display: block !important;
           }
           .feat-grid {
             grid-template-columns: repeat(2, 1fr) !important;
             gap: 12px !important;
+            grid-auto-rows: 1fr !important;
+          }
+          .feat-grid .ch {
+            padding: 18px 10px !important;
+            min-height: 150px !important;
+            gap: 10px !important;
+          }
+          .feat-grid .ch p {
+            font-size: 12px !important;
           }
         }
       `}</style>
@@ -1694,7 +1773,7 @@ export default function ARSLandingPage() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                minHeight: "clamp(300px, 50vh, 400px)",
+                minHeight: 350,
               }}
             >
               {/* Glow Background */}
@@ -1712,8 +1791,8 @@ export default function ARSLandingPage() {
                 className="technology-model-wrap"
                 style={{
                   width: "100%",
-                  height: "clamp(280px, 42vw, 400px)",
-                  minHeight: 280,
+                  height: 350,
+                  minHeight: 350,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -1724,15 +1803,18 @@ export default function ARSLandingPage() {
                 <model-viewer
                   class="technology-model-viewer"
                   src="/smartwatch.glb"
+                  loading="eager"
+                  reveal="auto"
                   ar
                   camera-controls
                   auto-rotate
                   exposure="1.2"
                   environment-image="neutral"
+                  touch-action="pan-y"
                   style={{
                     width: "100%",
                     height: "100%",
-                    minHeight: "100%",
+                    minHeight: 300,
                     display: "block",
                     background: "transparent",
                   }}
@@ -2089,6 +2171,8 @@ export default function ARSLandingPage() {
                 style={{
                   transitionDelay: `${idx * 0.15}s`,
                   transitionDuration: "1.2s",
+                  height: "100%",
+                  display: "flex",
                 }}
               >
                 <div
@@ -2104,6 +2188,8 @@ export default function ARSLandingPage() {
                     gap: 14,
                     boxShadow: "0 2px 12px rgba(0,0,0,.06)",
                     border: `1.5px solid ${f.c}25`,
+                    minHeight: 170,
+                    height: "100%",
                   }}
                 >
                   <div
@@ -2161,84 +2247,28 @@ export default function ARSLandingPage() {
                 How ARS Tracker connects your athletes to the platform
               </p>
             </div>
-            {/* Architecture image — replace src with your image */}
+            {/* Architecture image */}
             <div
               style={{
                 background: offWhite,
                 borderRadius: 16,
-                border: `2px dashed ${olive}50`,
+                border: `2px dashed ${olive}80`,
                 display: "flex",
-                flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                minHeight: 360,
-                gap: 16,
+                padding: 24,
               }}
             >
               <img
                 src="/architecture.png"
                 alt="System Architecture"
-                style={{ maxWidth: "100%", borderRadius: 12, display: "block" }}
-                onError={(e) => {
-                  e.target.style.display = "none";
-                  e.target.nextSibling.style.display = "flex";
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                  borderRadius: 12,
+                  display: "block",
                 }}
               />
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: 40,
-                }}
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke={olive}
-                  strokeWidth="1.5"
-                  style={{ width: 48, height: 48 }}
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <path d="M3 9h18M9 21V9" />
-                </svg>
-                <p
-                  className="bc"
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 700,
-                    color: midGray,
-                    textTransform: "uppercase",
-                    letterSpacing: ".1em",
-                  }}
-                >
-                  Add your architecture image here
-                </p>
-                <p style={{ fontSize: 12, color: midGray }}>
-                  Place{" "}
-                  <code
-                    style={{
-                      background: "#eee",
-                      padding: "2px 6px",
-                      borderRadius: 4,
-                    }}
-                  >
-                    /architecture.png
-                  </code>{" "}
-                  in your{" "}
-                  <code
-                    style={{
-                      background: "#eee",
-                      padding: "2px 6px",
-                      borderRadius: 4,
-                    }}
-                  >
-                    /public
-                  </code>{" "}
-                  folder
-                </p>
-              </div>
             </div>
           </div>
         </section>
@@ -2602,7 +2632,7 @@ export default function ARSLandingPage() {
                     gap: 10,
                   }}
                 >
-                  {["🏃", "🚴", "🏊", "⚽", "🏋"].map((e) => (
+                  {[].map((e) => (
                     <div
                       key={e}
                       style={{
@@ -2669,7 +2699,7 @@ export default function ARSLandingPage() {
                   {[
                     { label: "Normal Use", days: 10, pct: 100, c: "#9ca82d" },
                     { label: "Standby Mode", days: 20, pct: 100, c: "#c9a84c" },
-                    { label: "GPS Active", days: 3, pct: 30, c: "#e8c96a" },
+                    
                   ].map((b) => (
                     <div key={b.label}>
                       <div
