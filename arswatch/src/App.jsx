@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ARSLandingPage from "./components/ARSLandingPage";
+import ARSLandingPage from "./components/watch";
 import ARSBlogPlatform from "./components/blog";
 
 export default function App() {

@@ -1,0 +1,253 @@
+@import url("https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Barlow", sans-serif;
+  background: #f7f6f1;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Font Families */
+.bc {
+  font-family: "Barlow Condensed", sans-serif !important;
+}
+
+.teko {
+  font-family: "Teko", sans-serif !important;
+}
+
+/* ────────────────────────────────────────────────────────────────────────── */
+/* ANIMATIONS */
+/* ────────────────────────────────────────────────────────────────────────── */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes lp {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes scan {
+  0% {
+    top: -30%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    top: 130%;
+    opacity: 0;
+  }
+}
+
+.fw {
+  animation: float 5s ease-in-out infinite;
+}
+
+.scanl {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(201, 168, 76, 0.18),
+    transparent
+  );
+  animation: scan 3.5s linear infinite;
+  pointer-events: none;
+}
+
+/* ────────────────────────────────────────────────────────────────────────── */
+/* FORM INPUTS */
+/* ────────────────────────────────────────────────────────────────────────── */
+
+.inp {
+  width: 100%;
+  padding: 11px 14px;
+  border: 2px solid #e0ddd5;
+  border-radius: 5px;
+  font-size: 13px;
+  font-family: "Barlow", sans-serif;
+  color: #111408;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.inp:focus {
+  border-color: #c9a84c;
+}
+
+/* ────────────────────────────────────────────────────────────────────────── */
+/* CARDS & CONTAINERS */
+/* ────────────────────────────────────────────────────────────────────────── */
+
+.ch {
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+  cursor: default;
+}
+
+.ch:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* ────────────────────────────────────────────────────────────────────────── */
+/* BUTTONS */
+/* ────────────────────────────────────────────────────────────────────────── */
+
+.btn-w {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 13px 28px;
+  font-size: 11px;
+  font-weight: 800;
+  font-family: "Barlow Condensed", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-w:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+}
+
+.btn-o {
+  background: #747c27;
+  border: none;
+  color: white;
+  padding: 13px 28px;
+  font-size: 11px;
+  font-weight: 800;
+  font-family: "Barlow Condensed", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-o:hover {
+  background: #3a4212;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(116, 124, 39, 0.3);
+}
+
+.btn-s {
+  background: #747c27;
+  border: none;
+  color: white;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  font-size: 13px;
+  font-weight: 800;
+  font-family: "Barlow Condensed", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-s:hover {
+  background: #3a4212;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(116, 124, 39, 0.3);
+}
+
+/* ────────────────────────────────────────────────────────────────────────── */
+/* LINKS & NAVIGATION */
+/* ────────────────────────────────────────────────────────────────────────── */
+
+.nl {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #888875;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.nl:hover {
+  color: #747c27;
+  transform: translateY(-1px);
+}
+
+/* ────────────────────────────────────────────────────────────────────────── */
+/* FEATURE GRID */
+/* ────────────────────────────────────────────────────────────────────────── */
+
+.feat-grid {
+  grid-auto-rows: 1fr;
+}
+
+.feat-grid > div {
+  height: 100%;
+  display: flex !important;
+}
+
+.feat-grid .ch {
+  width: 100%;
+}
+
+/* ────────────────────────────────────────────────────────────────────────── */
+/* 3D MODEL VIEWER */
+/* ────────────────────────────────────────────────────────────────────────── */
+
+model-viewer.technology-model-viewer {
+  width: 100% !important;
+  height: 350px !important;
+  min-height: 350px !important;
+  max-height: 100% !important;
+  display: block !important;
+  contain: strict !important;
+}
+
+.technology-model-wrap {
+  width: 100% !important;
+  height: 350px !important;
+  min-height: 350px !important;
+  display: flex !important;
+  overflow: visible !important;
+}
