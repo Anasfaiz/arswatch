@@ -1,0 +1,190 @@
+{
+  "categories": [
+    { "id": "all", "label": "All" },
+    { "id": "training", "label": "Training Tips" },
+    { "id": "tech", "label": "Tech & Data" },
+    { "id": "events", "label": "Events" },
+    { "id": "stories", "label": "Player Stories" },
+    {
+      "id": "sports",
+      "label": "Sports",
+      "subcategories": [
+        { "id": "cricket", "label": "Cricket" },
+        { "id": "football", "label": "Football" }
+      ]
+    },
+    { "id": "coaching", "label": "Coaching" }
+  ],
+  "carouselImages": [
+    "/Gaya event/pic1.jpeg",
+    "/Gaya event/pic2.jpeg",
+    "/Gaya event/pic3.jpeg",
+    "/Gaya event/pic1.jpeg",
+    "/Gaya event/pic2.jpeg",
+    "/Gaya event/pic3.jpeg"
+  ],
+  "blogPosts": [
+    {
+      "id": 1,
+      "title": "Elite Training Techniques: Building Champions from the Ground Up",
+      "category": "training",
+      "excerpt": "Discover how grassroots coaching is transforming young cricketers into elite athletes.",
+      "author": "Anas Faiz",
+      "authorRole": "Performance Coach",
+      "date": "Mar 20, 2026",
+      "location": "Gaya",
+      "image": "/Gaya event/pic1.jpeg",
+      "tags": ["Coaching", "Performance"],
+      "isLatest": true,
+      "sections": [
+        {
+          "type": "intro",
+          "title": "Elite Training Techniques: Building Champions from the Ground Up",
+          "content": "Our matches in four weeks for the men's team composition. Alongside of the shock and alongside the best against organization in teams."
+        },
+        {
+          "type": "image",
+          "image": "/Gaya event/pic1.jpeg"
+        },
+        {
+          "type": "paragraph",
+          "content": "A guided cricket schedule the new and city sport and real Australia's men play four Tests in the next new December through January. Those cricket, following four Tests against South Australia will restrict claim to have expanded the schedule so seven Tests, with possibly another strong suggestion in the new New years."
+        },
+        {
+          "type": "text_image",
+          "title": "THE FOUNDATION OF CHAMPIONS",
+          "text": "Elite performance doesn't happen by accident. It's the result of deliberate practice, expert coaching, and a deep understanding of the game's fundamentals. At ARS Kreedashala, we've developed a system that brings world-class training techniques to grassroots cricketers.\n\nOur approach combines three core pillars: technical mastery, physical conditioning, and mental resilience. Each component is equally important in developing young players who can compete at the highest levels.",
+          "image": "/Gaya event/pic2.jpeg"
+        },
+        {
+          "type": "text_image",
+          "title": "BREAKING DOWN THE TRAINING FRAMEWORK",
+          "text": "Technical training focuses on perfecting the fundamentals - batting stance, bowling action, and fielding positions. We use video analysis to identify micro-adjustments that can transform performance.\n\nPhysical conditioning ensures players have the strength, speed, and endurance needed for professional cricket. Mental training prepares them for the psychological demands of competitive play.",
+          "image": "/Gaya event/pic3.jpeg"
+        },
+        {
+          "type": "video",
+          "video": "/Gaya event/video1.mp4"
+        },
+        {
+          "type": "paragraph",
+          "content": "What sets our program apart is our ability to bridge the gap between grassroots cricket and professional standards. Young players from modest backgrounds can now access the same training methodologies used by national teams.\n\nThe impact is measurable. Players who started in our program have gone on to represent district-level teams, get selected for state academies, and secure professional contracts."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Data-Driven Insights: What the Numbers Tell Us",
+      "category": "sports",
+      "excerpt": "Understanding performance metrics that separate good players from great ones.",
+      "author": "Priya Menon",
+      "authorRole": "Data Analyst",
+      "date": "Mar 18, 2026",
+      "location": "Mumbai",
+      "image": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&h=400&fit=crop",
+      "tags": ["Analytics", "Data"],
+      "isLatest": true,
+      "sections": [
+        {
+          "type": "intro",
+          "title": "Data-Driven Insights: What the Numbers Tell Us",
+          "content": "In modern cricket, data is king. Every delivery, every shot, every movement can be quantified and analyzed."
+        },
+        {
+          "type": "image",
+          "image": "/placeholder/tech-dashboard.jpg"
+        },
+        {
+          "type": "text_image",
+          "title": "THE POWER OF PERFORMANCE METRICS",
+          "text": "This data revolution is changing how we develop players and predict future performance. Not all statistics are created equal. We focus on metrics that directly correlate with match success.",
+          "image": "/placeholder/tech-metrics.jpg"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Community Spotlight: Young Talents of Ranchi",
+      "category": "events",
+      "excerpt": "Celebrating the rising stars in our grassroots cricket program this season.",
+      "author": "Team ARS",
+      "authorRole": "Community Manager",
+      "date": "Mar 15, 2026",
+      "location": "Ranchi",
+      "image": "https://images.unsplash.com/photo-1552481851-8fbe026e6d8d?w=600&h=400&fit=crop",
+      "tags": ["Community", "Youth"],
+      "isLatest": false,
+      "sections": [
+        {
+          "type": "intro",
+          "title": "Community Spotlight: Young Talents of Ranchi",
+          "content": "Every season, we see young talents emerge from our community programs."
+        },
+        {
+          "type": "image",
+          "image": "/placeholder/community-talents.jpg"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "The Science Behind the Perfect Swing",
+      "category": "training",
+      "excerpt": "Video analysis reveals what makes the difference in batting technique.",
+      "author": "Coach Vikram",
+      "authorRole": "Technical Coach",
+      "date": "Mar 12, 2026",
+      "location": "Delhi",
+      "image": "https://images.unsplash.com/photo-1545007713-51671e0bb629?w=600&h=400&fit=crop",
+      "tags": ["Technique", "Video"],
+      "isLatest": false,
+      "sections": [
+        {
+          "type": "intro",
+          "title": "The Science Behind the Perfect Swing",
+          "content": "What separates an average batsman from an elite one?"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Building Your Personal Performance Dashboard",
+      "category": "sports",
+      "excerpt": "A guide to tracking your progress with ARS Tracker v2.0.",
+      "author": "Priya Menon",
+      "authorRole": "Data Analyst",
+      "date": "Mar 10, 2026",
+      "location": "Bangalore",
+      "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop",
+      "tags": ["Dashboard", "Tools"],
+      "isLatest": false,
+      "sections": [
+        {
+          "type": "intro",
+          "title": "Building Your Personal Performance Dashboard",
+          "content": "ARS Tracker v2.0 puts powerful analytics in your hands."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Annual Championship: What to Expect",
+      "category": "events",
+      "excerpt": "Get ready for the biggest grassroots cricket event of the year.",
+      "author": "Event Team",
+      "authorRole": "Community Manager",
+      "date": "Mar 08, 2026",
+      "location": "Ranchi",
+      "image": "https://images.unsplash.com/photo-1624526267942-ab67cb7db225?w=600&h=400&fit=crop",
+      "tags": ["Championship", "Tournament"],
+      "isLatest": false,
+      "sections": [
+        {
+          "type": "intro",
+          "title": "Annual Championship: What to Expect",
+          "content": "Our Annual Championship brings together the best grassroots talent from across India."
+        }
+      ]
+    }
+  ]
+}
